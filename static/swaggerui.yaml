@@ -1,0 +1,199 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Weather Info"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "127.0.0.1:5000"
+basePath: "/"
+tags:
+- name: "weather"
+  description: "Everything about your Pets"
+schemes:
+- "https"
+- "http"
+paths:
+  /historical:
+    get:
+      tags:
+      - "weather"
+      summary: "Get weather info"
+      description: ""
+      operationId: "getWeather"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pet object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/getdates"
+      responses:
+        405:
+          description: "Invalid input"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    
+  /historical/{date}:
+    get:
+      tags:
+      - "weatherbydate"
+      summary: "Finds Pets by status"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "findPetsByStatus"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: date
+        in: path
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "available"
+          - "pending"
+          - "sold"
+          default: "available"
+        collectionFormat: "csv"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/getdates"
+        400:
+          description: "Invalid status value"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  
+    delete:
+      tags:
+      - "Delete weather"
+      summary: "Deletes weather"
+      description: ""
+      operationId: "deleteweather"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: date
+        in: path
+        required: true
+        type: "string"
+      - name: "petId"
+        in: "path"
+        
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "datenot found"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /historical/:
+    post:
+      tags:
+      - "Post Weather Info"
+      summary: "adds weather info"
+      description: ""
+      operationId: "uploadFile"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Date"
+        in: "path"
+        description: "ID of pet to update"
+        required: true
+        type: "string"
+        
+      - name: "TMAX"
+        in: "path"
+        description: "Additional data to pass to server"
+        required: true
+        type: "string"
+      - name: "TMIN"
+        in: "path"
+        description: "file to upload"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/getdates"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  
+ 
+  
+  getdates:
+    type: "object"
+    required:
+    - "name"
+    - "photoUrls"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      
+      name:
+        type: "string"
+        example: "doggie"
+      photoUrls:
+        type: "array"
+        xml:
+          name: "photoUrl"
+          wrapped: true
+        items:
+          type: "string"
+      
+      status:
+        type: "string"
+        description: "get status of date"
+        enum:
+        - "available"
+        - "pending"
+        - "sold"
+    xml:
+      name: "Pet"

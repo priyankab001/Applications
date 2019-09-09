@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Weather",
+    "version": "1.0.0",
+    "title": "Python-FLask-SwaggerAPI-WeatherAppe",
+    "contact": {
+      "email": "buddulpa@mail.uc.edu"
+    },
+    "license": {
+      "name": "MIT",
+      
+    }
+  }
+}
