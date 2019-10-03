@@ -27,12 +27,7 @@ csv_file = pd.DataFrame(pd.read_csv("/Users/msdaram/Downloads/dailyweather.csv",
 def get_data():
 	# jsonf = request.json
 	list1 =[]
-	#csv_file = pd.DataFrame(pd.read_csv("/Users/msdaram/Downloads/dailyweather.csv", sep = ",", header = 0, index_col = False))
-	#csv_file1 = pd.DataFrame(pd.read_csv("/Users/msdaram/Downloads/dailyweathernew.csv", sep = ",", header = 0, index_col = False))
-	#f=csv_file.to_json(orient = "records", date_format = "epoch", double_precision = 10, force_ascii = True, date_unit = "ms", default_handler = None)     
-	#csv1=csv_file.drop(['TMAX','TMIN'],axis=1)
 	
-	#csv_dict=csv1.to_dict('records')
 	global csv_file
 	global csv_file1
 	if(request.method=='GET'):
@@ -68,12 +63,7 @@ def get_specdate(num):
 	#df = pd.read_csv('/Users/msdaram/Downloads/dailyweather.csv')
 	print('csv',csv_file,'csvend')
 	print(num)
-	#df1=pd.DataFrame(pd.read_csv("/Users/msdaram/Downloads/dailyweathernew.csv", sep = ",", header = 0, index_col = False))
-	# if(request.method == 'DELETE'):
-	# 	csv_file=csv_file.drop(csv_file[csv_file['DATE']==num].index.item(),axis=0)
-
-	# 	csv_file1=csv_file1.drop(csv_file1[csv_file1['DATE']==num].index.item(),axis=0)
-	# 	return csv_file1.to_json(orient = "records", double_precision = 10, force_ascii = True, default_handler = None),200
+	
 	if(request.method=='GET'):
 		#print(csv_file['DATE'])
 		#print('inside get')
@@ -84,21 +74,7 @@ def get_specdate(num):
 			if(i==num):
 				df2 = csv_file.loc[csv_file['DATE'] == num].to_json()
 				break
-				# lnew=df2.values.tolist()
-				# lnew1=[]
-				# #b=','.join(map(str, lnew))
-				# #print(b)
-				# lnew2=[]
-				# lnew3=[]
-				# print(lnew)
-				# lnew2.append(str(lnew[0][0]))
-				# lnew2.append(lnew[0][1])
-				# lnew2.append(lnew[0][2])
-
-				# lnew3.append(lnew2)
-				# print(lnew2)	
-				# df3=pd.DataFrame(np.array(lnew3),columns=['DATE','TMAX','TMIN'])
-				# len(df3.to_json(orient = "records", double_precision = 10, force_ascii = True, default_handler = None))
+				
 			else:
 				df2 = page_not_found()
 		return df2
